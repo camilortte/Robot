@@ -14,7 +14,9 @@ float distanciaEntrePuntos(int,int);
 int mayor(int,int);
 int menor(int,int);
 bool movimientoPosible(int,int);
-char *obtenerMejorPosicion();
+float menorHeuristica(float,float,float);
+float menorHeuristica_1(float,float,float,float);
+int *obtenerMejorPosicion();
 void moverArriba();
 void moverAbajo();
 void moverIzquierda();
@@ -25,6 +27,7 @@ int robotx;
 int roboty;
 int salidax;
 int saliday;
+bool salio=false;
 
 void crearParque(){
 	/*Generamos el lugar donde estara el robor*/
@@ -167,10 +170,151 @@ bool movimientoPosible(int i, int j){
 	return valido;
 }
 
-char *obtenerMejorPosicion(){
-   char* pos = new char[2];
-   rx = robotx;
-   ry = roboty;
+float menorHeuristica(float h1,float h2,float h3){
+	float menor=0;
+	if(h1<h2){
+	    if(h1<h3){
+           menor=h1;
+	    }else{
+            menor=h3;
+	    }
+	}else{
+        if(h2<h3){
+            menor=h2;
+        }else{
+            menor=h3;
+        }
+	}
+	return menor;
+}
+
+float menorHeuristica_1(float h1,float h2,float h3,float h4){
+    float menor=0;
+    float temp=menorHeuristica(h1,h2,h3);
+    if(temp<h4){
+        menor=temp;
+    }else{
+        menor=h4;
+    }
+    return menor;
+}
+/*calcula cual es la mejor posicion median te heuristica de cada posible movimiento*/
+int *obtenerMejorPosicion(){
+   int* pos = new int[2];
+   int rx = robotx;
+   int ry = roboty;
+   if(rx==0 && ry==0){//esta en la esquina sup izq ->tiene dos posibles movimientos
+       if(calcularHeuristica(rx+1,ry,salidax,saliday)<calcularHeuristica(rx,ry+1,salidax,saliday)){
+           pos[0]=rx+1;
+           pos[1]=ry;
+       }else{
+           pos[0]=rx;
+           pos[1]=ry+1;
+       }
+    }else if(rx==0 && ry>0 && ry<m){//esta en medio de la fila cero ->tiene 3 posibles movimientos
+        float pos_1=calcularHeuristica(rx,ry-1,salidax,saliday);
+        float pos_2=calcularHeuristica(rx+1,ry,salidax,saliday);
+        float pos_3=calcularHeuristica(rx,ry+1,salidax,saliday);
+        float menorH = menorHeuristica(pos_1,pos_2,pos_3);
+        if(pos_1==menorH){
+            pos[0]=rx;
+            pos[1]=ry-1;
+        }else if(pos_2=menorH){
+            pos[0]=rx+1;
+            pos[1]=ry;
+        }else{
+            pos[0]=rx;
+            pos[1]=ry+1;
+        }
+    }else if(rx==0 && ry==m-1){//esta en la esquina superior derecha-> tiene dos movimientos posibles
+        if(calcularHeuristica(rx,ry-1,salidax,saliday)<calcularHeuristica(rx+1,ry,salidax,saliday)){
+           pos[0]=rx;
+           pos[1]=ry-1;
+       }else{
+           pos[0]=rx+1;
+           pos[1]=ry;
+       }
+    }else if(ry==m-1 && rx>0 && rx<n-1){//esta en medio de la ultima columna de la matriz
+        float pos_1=calcularHeuristica(rx-1,ry,salidax,saliday);
+        float pos_2=calcularHeuristica(rx,ry-1,salidax,saliday);
+        float pos_3=calcularHeuristica(rx+1,ry,salidax,saliday);
+        float menorH = menorHeuristica(pos_1,pos_2,pos_3);
+        if(pos_1==menorH){
+            pos[0]=rx-1;
+            pos[1]=ry;
+        }else if(pos_2=menorH){
+            pos[0]=rx;
+            pos[1]=ry-1;
+        }else{
+            pos[0]=rx+1;
+            pos[1]=ry;
+        }
+    }else if(rx==n-1 && ry==m-1){//esta en la esquina inferior dereceha ->tiene dos posibildiades de movi
+        if(calcularHeuristica(rx-1,ry,salidax,saliday)<calcularHeuristica(rx,ry-1,salidax,saliday)){
+           pos[0]=rx-1;
+           pos[1]=ry;
+       }else{
+           pos[0]=rx;
+           pos[1]=ry-1;
+       }
+    }else if(rx==n-1 && rx<m-1 && rx>0){//esta en la ultima fila y en medio, ->tine tres posibilidades de mov
+        float pos_1=calcularHeuristica(rx,ry-1,salidax,saliday);
+        float pos_2=calcularHeuristica(rx-1,ry,salidax,saliday);
+        float pos_3=calcularHeuristica(rx,ry+1,salidax,saliday);
+        float menorH = menorHeuristica(pos_1,pos_2,pos_3);
+        if(pos_1==menorH){
+            pos[0]=rx;
+            pos[1]=ry-1;
+        }else if(pos_2=menorH){
+            pos[0]=rx-1;
+            pos[1]=ry;
+        }else{
+            pos[0]=rx;
+            pos[1]=ry+1;
+        }
+    }else if(rx==n-1 && ry==0){//esta en la esquina inferior izquierda->tiene dos posibles movimientos
+        if(calcularHeuristica(rx-1,ry,salidax,saliday)<calcularHeuristica(rx,ry+1,salidax,saliday)){
+           pos[0]=rx-1;
+           pos[1]=ry;
+       }else{
+           pos[0]=rx;
+           pos[1]=ry+1;
+       }
+    }else if(rx>0 && ry==0 && rx<n-1){//esta en la primera columna en el medio- > tiene trs posibles movimientos
+        float pos_1=calcularHeuristica(rx-1,ry,salidax,saliday);
+        float pos_2=calcularHeuristica(rx,ry+1,salidax,saliday);
+        float pos_3=calcularHeuristica(rx+1,ry,salidax,saliday);
+        float menorH = menorHeuristica(pos_1,pos_2,pos_3);
+        if(pos_1==menorH){
+            pos[0]=rx-1;
+            pos[1]=ry;
+        }else if(pos_2=menorH){
+            pos[0]=rx;
+            pos[1]=ry+1;
+        }else{
+            pos[0]=rx+1;
+            pos[1]=ry;
+        }
+    }else if(rx>0 && ry>0 && rx<n-1 && ry<m-1){//tiene cuatro posibles movimientos
+        float pos_1=calcularHeuristica(rx-1,ry,salidax,saliday);
+        float pos_2=calcularHeuristica(rx,ry+1,salidax,saliday);
+        float pos_3=calcularHeuristica(rx+1,ry,salidax,saliday);
+        float pos_4=calcularHeuristica(rx,ry-1,salidax,saliday);
+        float menorH=menorHeuristica_1(pos_1,pos_2,pos_3,pos_4);
+        if(pos_1==menorH){
+            pos[0]=rx-1;
+            pos[1]=ry;
+        }else if(pos_2==menorH){
+            pos[0]=rx;
+            pos[1]=ry+1;
+        }else if(pos_3==menorH){
+            pos[0]=rx+1;
+            pos[1]=ry;
+        }else{
+           pos[0]=rx;
+           pos[1]=ry-1;
+        }
+    }
 
    return pos;
 }
@@ -179,6 +323,9 @@ void moverArriba(){
 	int rx=robotx;
 	int ry=roboty;
 	if(movimientoPosible(rx-1,ry)==true){
+	    if(escenario[rx-1][ry]==5){//llego
+	        salio=true;
+	    }
 		escenario[rx-1][ry]=1;
 		escenario[rx][ry]=0;
 		robotx=rx-1;
@@ -192,6 +339,9 @@ void moverAbajo(){
 	int rx=robotx;
 	int ry=roboty;
 	if(movimientoPosible(rx+1,ry)==true){
+	    if(escenario[rx+1][ry]==5){//llego
+            salio=true;
+	    }
 		escenario[rx+1][ry]=1;
 		escenario[rx][ry]=0;
 		robotx=rx+1;
@@ -205,6 +355,9 @@ void moverDerecha(){
 	int rx=robotx;
 	int ry=roboty;
 	if(movimientoPosible(rx,ry+1)==true){
+	    if(escenario[rx][ry+1]==5){//llego
+            salio=true;
+	    }
 		escenario[rx][ry+1]=1;
 		escenario[rx][ry]=0;
 		robotx=rx;
@@ -218,6 +371,9 @@ void moverIzquierda(){
 	int rx=robotx;
 	int ry=roboty;
 	if(movimientoPosible(rx,ry-1)==true){
+	    if(escenario[rx][ry-1]==5){//llego
+	        salio=true;
+	    }
 		escenario[rx][ry-1]=1;
 		escenario[rx][ry]=0;
 		robotx=rx;
@@ -225,6 +381,11 @@ void moverIzquierda(){
 	}else{
 		cout<<"\n\n!movimiento invalido!\n\n";
 	}
+}
+
+void verRecomendacion(){
+    int * p= obtenerMejorPosicion();
+    cout<<" pos["<<p[0]<<"] pos["<<p[1]<<"]";
 }
 
 void menu(){
@@ -237,6 +398,7 @@ void menu(){
 			cout<<"4. mover hacia Abajo.\n";
 			cout<<"5. ver mapa.\n";
 			cout<<"6. ver heuristica.\n";
+			cout<<"7. reccomendacion.\n";
 			cout<<"0. Salir.\n";
 			cout<<"Seleccion: ";
 			cin>>input;
@@ -267,6 +429,9 @@ void menu(){
                 break;
 			case 0:
 				exit(0);
+				break;
+            case 7:
+				verRecomendacion();
 				break;
 			default:
 				cout<<"opcion no valida";
