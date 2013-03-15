@@ -4,7 +4,7 @@
 #include <math.h>
 #define n 10
 #define m 10
-#define NUMERO_OBSTACULOS 5
+#define NUMERO_OBSTACULOS 10
 
 using namespace std;
 
@@ -12,8 +12,6 @@ void crearParque();
 void imprimirMapa();
 double distanciaEntrePuntos(int,int);
 bool movimientoPosible(int,int);
-float menorHeuristica(float,float,float);
-float menorHeuristica_1(float,float,float,float);
 //int *obtenerMejorPosicion();
 void moverArriba();
 void moverAbajo();
@@ -23,6 +21,7 @@ double calcularHeuristica();
 
 
 int escenario[n][m];
+int escenarioHeuristico[n][m];
 int robotx;
 int roboty;
 int salidax;
@@ -93,7 +92,6 @@ void imprimirMapa(){
     }
 }
 
-
 /*Devuele la distancia Entre dos puntos
 haciendo uso del teorema de pitagoras*/
 double distanciaEntrePuntos(int p1,int p2){
@@ -103,14 +101,13 @@ double distanciaEntrePuntos(int p1,int p2){
 /*calcula la heuristica del robot con respecto a la salida*/
 double calcularHeuristica(int robx,int roby){
     //no estan en la misma fila ni en la misma columana
-    double h = distanciaEntrePuntos((int)abs(robx-salidax),(int)abs(roby-saliday));
-    return h;
+    return distanciaEntrePuntos((int)abs(robx-salidax),(int)abs(roby-saliday));
 }
 
 /*Verifica si es posible moverce a (i,j)*/
 bool movimientoPosible(int i, int j){
     bool valido=false;
-    if(i<0 || i>n || j<0 || j>m){
+    if(i<0 || i>=n || j<0 || j>=m){
         valido=false;
     }else{
         if(escenario[i][j]!=2 && escenario[i][j]!=4){
@@ -127,50 +124,68 @@ void generacionDeHijos(){
     int roboxAux=robotx;
     int roboyAux=roboty;
 
-    double AEstretlla[]={-1,-1,-1,-1};
-
+    double AEstretlla[]={NULL,NULL,NULL,NULL};
     moverArriba();
     if(robotx!=roboxAux || roboty!=roboyAux){
+        cout<<"Se movio el robot arriba: "<<robotx<<"_"<<roboty<<endl;
         AEstretlla[0]=calcularHeuristica(robotx,roboty)+1;
-        roboxAux=robotx;
-        roboyAux=roboty;
+        escenario[roboxAux][roboyAux]=1;
+        escenario[robotx][roboty]=0;
+        robotx=roboxAux;
+        roboty=roboyAux;
     }
 
     moverDerecha();
     if(robotx!=roboxAux || roboty!=roboyAux){
+        cout<<"Se movio el robor derecha: "<<robotx<<"_"<<roboty<<endl;
         AEstretlla[1]=calcularHeuristica(robotx,roboty)+1;
-        roboxAux=robotx;
-        roboyAux=roboty;
+        escenario[roboxAux][roboyAux]=1;
+        escenario[robotx][roboty]=0;
+        robotx=roboxAux;
+        roboty=roboyAux;
     }
 
     moverAbajo();
     if(robotx!=roboxAux || roboty!=roboyAux){
+        cout<<"Se movio el robor abajo: "<<robotx<<"_"<<roboty<<endl;
         AEstretlla[2]=calcularHeuristica(robotx,roboty)+1;
-        roboxAux=robotx;
-        roboyAux=roboty;
+        escenario[roboxAux][roboyAux]=1;
+        escenario[robotx][roboty]=0;
+        robotx=roboxAux;
+        roboty=roboyAux;
     }
 
     moverIzquierda();
     if(robotx!=roboxAux || roboty!=roboyAux){
+        cout<<"Se movio el robor izquierda: "<<robotx<<"_"<<roboty<<endl;
         AEstretlla[3]=calcularHeuristica(robotx,roboty)+1;
-        roboxAux=robotx;
-        roboyAux=roboty;
+        escenario[roboxAux][roboyAux]=1;
+        escenario[robotx][roboty]=0;
+        robotx=roboxAux;
+        roboty=roboyAux;
     }
 
     double pminimo=AEstretlla[0];
     int item=0;
      for (int i=0;i<3;i++){ ///recorre
-          if(AEstretlla[i]<pminimo && AEstretlla[i]!=-1){ //si encuentra //uno menor -> pminimo = ese menor
+         if(pminimo==NULL){
+             if(AEstretlla[i]!=NULL){
+                 pminimo=AEstretlla[i];
+                 item=i;
+             }
+
+         }else{
+          if(AEstretlla[i]<pminimo && AEstretlla[i]!=NULL){ //si encuentra //uno menor -> pminimo = ese menor
              pminimo=AEstretlla[i];
              item=i;
           }
       }
-
+     }
+    cout<<"Se tendria que mover: "<<item<<endl;
     switch (item){
         case 0:
             moverArriba();
             break;
-
         case 1:
             moverDerecha();
             break;
@@ -185,127 +200,60 @@ void generacionDeHijos(){
 }
 
 
+//Operadores
 void moverArriba(){
-    int rx=robotx;
-    int ry=roboty;
-    if(movimientoPosible(rx-1,ry)==true){
-        if(escenario[rx-1][ry]==5){//llego
-            salio=true;
+    int robotX=robotx;
+    int robotY=roboty;
+    if(robotX-1>=0){
+        if(escenario[robotX-1][robotY]!=2 && escenario[robotX-1][robotY]!=4){
+            escenario[robotX][robotY]=0;
+            escenario[robotX-1][robotY]=1;
+            robotx=robotX-1;
         }
-        escenario[rx-1][ry]=1;
-        escenario[rx][ry]=0;
-        robotx=rx-1;
-        roboty=ry;
-    }else{
-        cout<<"movimiento invalido\n";
     }
 }
 
 void moverAbajo(){
-    int rx=robotx;
-    int ry=roboty;
-    if(movimientoPosible(rx+1,ry)==true){
-        if(escenario[rx+1][ry]==5){//llego
-            salio=true;
+    int robotX=robotx;
+    int robotY=roboty;
+    if(robotX+1<n){
+        if(escenario[robotX+1][robotY]!=2 && escenario[robotX-1][robotY]!=4){
+            escenario[robotX][robotY]=0;
+            escenario[robotX+1][robotY]=1;
+            robotx=robotX+1;
         }
-        escenario[rx+1][ry]=1;
-        escenario[rx][ry]=0;
-        robotx=rx+1;
-        roboty=ry;
-    }else{
-        cout<<"movimiento invalido\n";
     }
 }
 
 void moverDerecha(){
-    int rx=robotx;
-    int ry=roboty;
-    if(movimientoPosible(rx,ry+1)==true){
-        if(escenario[rx][ry+1]==5){//llego
-            salio=true;
+    int robotX=robotx;
+    int robotY=roboty;
+    if(robotY+1<m){
+        if(escenario[robotX][robotY+1]!=2 && escenario[robotX][robotY+1]!=4){
+            escenario[robotX][robotY]=0;
+            escenario[robotX][robotY+1]=1;
+            roboty=robotY+1;
         }
-        escenario[rx][ry+1]=1;
-        escenario[rx][ry]=0;
-        robotx=rx;
-        roboty=ry+1;
-    }else{
-        cout<<"movimiento invalido\n";
     }
 }
 
 void moverIzquierda(){
-    int rx=robotx;
-    int ry=roboty;
-    if(movimientoPosible(rx,ry-1)==true){
-        if(escenario[rx][ry-1]==5){//llego
-            salio=true;
+    int robotX=robotx;
+    int robotY=roboty;
+    if(robotY-1>=0){
+        if(escenario[robotX][robotY-1]!=2 && escenario[robotX][robotY-1]!=4){
+            escenario[robotX][robotY]=0;
+            escenario[robotX][robotY-1]=1;
+            roboty=robotY-1;
         }
-        escenario[rx][ry-1]=1;
-        escenario[rx][ry]=0;
-        robotx=rx;
-        roboty=ry-1;
-    }else{
-        cout<<"\n\n!movimiento invalido!\n\n";
     }
 }
 
 
-
-void menu(){
-    int input=1;
-
-    do{
-            cout<<"\n\n1. mover a la Derecha.\n";
-            cout<<"2. mover a la Izquierda.\n";
-            cout<<"3. mover hacia Arriba.\n";
-            cout<<"4. mover hacia Abajo.\n";
-            cout<<"5. ver mapa.\n";
-            cout<<"6. ver heuristica.\n";
-            cout<<"7. reccomendacion.\n";
-            cout<<"0. Salir.\n";
-            cout<<"Seleccion: ";
-            cin>>input;
-
-            switch ( input ) {
-            case 1:
-                moverDerecha();
-                imprimirMapa();
-                break;
-            case 2:
-                moverIzquierda();
-                imprimirMapa();
-                break;
-            case 3:
-                moverArriba();
-                imprimirMapa();
-                break;
-            case 4:
-                moverAbajo();
-                imprimirMapa();
-                break;
-            case 5:
-                imprimirMapa();
-                imprimirMapa();
-                break;
-            case 6:
-
-                break;
-            case 0:
-                exit(0);
-                break;
-            case 7:
-                //verRecomendacion();
-                break;
-            default:
-                cout<<"opcion no valida";
-            }
-    }while (input != 0);
-}
-
 int main(){
     crearParque();
     imprimirMapa();
-    cout<<endl<<endl;
+    cout<<endl;
     int i=0;
     while(robotx!=salidax || roboty!=saliday){
         generacionDeHijos();
@@ -313,15 +261,6 @@ int main(){
         cout<<endl<<endl;
         cin>>i;
     }
-
-    /*cout<<"\n";
-    cout<<"heuristica del robot: ";
-    cout<<"  h:"<<calcularHeuristica(robotx,roboty,salidax,saliday);
-
-    system("pause");
-    menu();
-    */
-
     return 0;
 }
 
