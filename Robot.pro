@@ -3,9 +3,13 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
-SOURCES += Robot.cpp \
-    estado.cpp
+SOURCES += src/Sources/Robot.cpp \
+    src/Sources/estado.cpp \
+    src/Sources/aestrella.cpp \
+    src/Sources/escenario.cpp
 
 HEADERS += \
-    estado.h
+    src/Headers/estado.h \
+    src/Headers/aestrella.h \
+    src/Headers/escenario.h
 
