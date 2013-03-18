@@ -3,5 +3,9 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
-SOURCES += Robot.cpp
+SOURCES += Robot.cpp \
+    estado.cpp
+
+HEADERS += \
+    estado.h
 
