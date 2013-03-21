@@ -5,31 +5,19 @@
 #include <vector>
 #include "src/Headers/estado.h"
 #include "src/Headers/escenario.h"
-
+#include "src/Headers/aestrella.h"
 
 using namespace std;
 
 
 
 int main(){
-    Escenario mapa(20,20,5);
-    mapa.imprimirEscenario();
-    cout<<endl;
-    mapa.setEscenario(20,20,20);
-    mapa.imprimirEscenario();
-    cout<<endl;
+    Escenario *mapa=new Escenario(10,10,10);
+    mapa->imprimirEscenario();
+    AEstrella todo(mapa);
+    todo.calcularCamino();
 
-    mapa.setEscenario(20,20,15);
-    mapa.imprimirEscenario();
-    cout<<endl;
 
-    mapa.setEscenario(20,20,30);
-    mapa.imprimirEscenario();
-    cout<<endl;
-
-    mapa.setEscenario(10,10,30);
-    mapa.imprimirEscenario();
-    cout<<endl;
 
     return 0;
 }

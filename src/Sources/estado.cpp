@@ -17,11 +17,13 @@ void Estado::setPadre(int padrex, int padreY)
 
 void Estado::setH(int h)
 {
+    f=h+g;
     this->h=h;
 }
 
 void Estado::setG(int g)
 {
+    f=h+g;
     this->g=g;
 }
 

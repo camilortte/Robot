@@ -102,6 +102,17 @@ void Escenario::moverRobot(int x, int y)
     }
 }
 
+/*Si es una coordenada valida retorna
+su contenido , de lo contrario retorna
+-1*/
+int Escenario::getItem(int x, int y)
+{
+    if(movimientoIsValid(x,y))
+        return escenario[x][y];
+    else
+        return -1;
+}
+
 //Modifica el tamanio del escenario  , los obstaculos y regenera uno nuevo.
 void Escenario::setEscenario(int n, int m,int numeroObstaculos)
 {
@@ -114,6 +125,21 @@ void Escenario::setEscenario(int n, int m,int numeroObstaculos)
         escenario[i]=new int[m];
     }
     reGenerarEscenario();
+}
+
+bool Escenario::movimientoIsValid(int i, int j)
+{
+    bool valido=false;
+    if(i<0 || i>=n || j<0 || j>=m){
+        valido=false;
+    }else{
+        if(escenario[i][j]!=2 && escenario[i][j]!=4){
+            valido=true;
+        }else{
+            valido=false;
+        }
+    }
+    return valido;
 }
 
 

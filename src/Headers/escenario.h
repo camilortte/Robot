@@ -14,14 +14,16 @@ private:
     int n,m;
     int numeroObstaculos;
 
+
 public:
     Escenario(int n, int m,int numeroObstaculos);
     void reGenerarEscenario();
     void imprimirEscenario();
     void moverRobot(int x,int y);
     //Retorna un item del escenario
-    int getItem(int x,int y){ return escenario[x][y];}
+    int getItem(int x,int y);
     void setEscenario(int n, int m, int numeroObstaculos);
+    bool movimientoIsValid(int i, int j);
 
     int getRobotX(){ return robotX;}
     int getRobotY(){ return robotY;}
