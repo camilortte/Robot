@@ -12,11 +12,21 @@ using namespace std;
 
 
 int main(){
-    Escenario mapa(10,10,5);
+    Escenario mapa(20,20,5);
     mapa.imprimirEscenario();
-    mapa.moverRobot(2,3);
     cout<<endl;
+    mapa.setEscenario(20,20,20);
     mapa.imprimirEscenario();
+    cout<<endl;
+
+    mapa.setEscenario(20,20,15);
+    mapa.imprimirEscenario();
+    cout<<endl;
+
+    mapa.setEscenario(20,20,30);
+    mapa.imprimirEscenario();
+    cout<<endl;
+
     return 0;
 }
 

@@ -98,5 +98,18 @@ void Escenario::moverRobot(int x, int y)
     }
 }
 
+void Escenario::setEscenario(int n, int m,int numeroObstaculos)
+{
+    delete escenario;
+    this->n=n;
+    this->m=m;
+    this->numeroObstaculos=numeroObstaculos;
+    escenario=new int*[n];
+    for(int i=0;i<n;i++){
+        escenario[i]=new int[m];
+    }
+    reGenerarEscenario();
+}
+
 
 

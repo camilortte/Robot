@@ -19,6 +19,9 @@ public:
     void reGenerarEscenario();
     void imprimirEscenario();
     void moverRobot(int x,int y);
+    int getItem(int x,int y){ return escenario[x][y];}
+    void setEscenario(int n, int m, int numeroObstaculos);
+
     int getRobotX(){ return robotX;}
     int getRobotY(){ return robotY;}
     int getSalidaX(){ return salidaX;}
