@@ -4,17 +4,19 @@
 #include <math.h>
 #include <vector>
 #include "src/Headers/estado.h"
+#include "src/Headers/escenario.h"
 
-#define n 4
-#define m 4
-#define NUMERO_OBSTACULOS 5
 
 using namespace std;
 
 
 
 int main(){
-    cout<<"Hello WORD";
+    Escenario mapa(10,10,5);
+    mapa.imprimirEscenario();
+    mapa.moverRobot(2,3);
+    cout<<endl;
+    mapa.imprimirEscenario();
     return 0;
 }
 
