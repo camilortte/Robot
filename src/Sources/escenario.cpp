@@ -7,6 +7,7 @@
 
 using namespace std;
 
+//constructor , recibe filas , colummnas , numero de obstaculos
 Escenario::Escenario(int n, int m,int numeroObstaculos)
 {
     srand(time(NULL));
@@ -20,6 +21,7 @@ Escenario::Escenario(int n, int m,int numeroObstaculos)
     reGenerarEscenario();
 }
 
+//genera la aleatoriedad del escenario
 void Escenario::reGenerarEscenario()
 {
     //reseteamos todas las coordenadas a cero=0
@@ -78,6 +80,7 @@ void Escenario::reGenerarEscenario()
     }
 }
 
+//Imprime el escenario en la consola
 void Escenario::imprimirEscenario()
 {
     for(int i=0;i<n;i++){
@@ -88,6 +91,7 @@ void Escenario::imprimirEscenario()
     }
 }
 
+//Mueve el robot a una posicion x , y
 void Escenario::moverRobot(int x, int y)
 {
     escenario[robotX][robotY]=0;
@@ -98,6 +102,7 @@ void Escenario::moverRobot(int x, int y)
     }
 }
 
+//Modifica el tamanio del escenario  , los obstaculos y regenera uno nuevo.
 void Escenario::setEscenario(int n, int m,int numeroObstaculos)
 {
     delete escenario;

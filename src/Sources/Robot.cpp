@@ -27,6 +27,10 @@ int main(){
     mapa.imprimirEscenario();
     cout<<endl;
 
+    mapa.setEscenario(10,10,30);
+    mapa.imprimirEscenario();
+    cout<<endl;
+
     return 0;
 }
 
