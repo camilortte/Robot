@@ -1,19 +1,14 @@
 #include "src/Headers/estado.h"
 
-Estado::Estado(int x, int y, int padreX, int padreY)
+Estado::Estado(int x, int y, Estado *padre)
 {
     this->x=x;
     this->y=y;
-    this->padreX=padreX;
-    this->padreY=padreY;
     h=f=g=0;
+    this->padre=padre;
 }
 
-void Estado::setPadre(int padrex, int padreY)
-{
-    this->padreX=padrex;
-    this->padreY=padreY;
-}
+
 
 void Estado::setH(int h)
 {
@@ -27,15 +22,7 @@ void Estado::setG(int g)
     this->g=g;
 }
 
-int Estado::getPadreX()
-{
-    return this->padreX;
-}
 
-int Estado::getPadreY()
-{
-    return this->padreY;
-}
 
 int Estado::getX()
 {

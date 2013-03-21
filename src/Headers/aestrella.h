@@ -34,6 +34,7 @@ private:
     vector <Estado*> listaCerrada;
     Estado      *robot;
     Escenario   *mapa;
+    Estado *salida;
     void agregarSucesores(Estado *estadoPadre);
     bool comprobarListaCerrada(Estado *estado);
     set <Estado*,Cmp> listaAbierta2;
@@ -45,6 +46,7 @@ public:
     bool calcularCamino();
     int heuristica(int x, int y);
     void imprimirCamino();
+
 
 };
 

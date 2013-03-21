@@ -8,21 +8,19 @@ private:
     int x;
     int y;
 
-    int padreX;
-    int padreY;
+    Estado *padre;
 
     int h;
     int g;
     int f;
 public:
-    Estado(int x,int y,int padreX,int padreY);
+    Estado(int x, int y, Estado *padre);
 
-    void setPadre(int padrex,int padreY);
+    void setPadre(Estado *padre);
     void setH(int h);
     void setG(int g);
 
-    int getPadreX();
-    int getPadreY();
+    Estado *getPadre(){return this->padre;}
     int getX();
     int getY();
     int getH();

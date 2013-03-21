@@ -91,6 +91,40 @@ void Escenario::imprimirEscenario()
     }
 }
 
+void Escenario::imprimirEscenarioGragico()
+{
+    for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                switch (escenario[i][j]) {
+                case 0:
+                    cout<<" _ ";
+                    break;
+                case 1:
+                    cout<<" R ";
+                    break;
+                case 2:
+                    cout<<" * ";
+                    break;
+                case 4:
+                    cout<<" * ";
+                    break;
+                case 3:
+                    cout<<" _ ";
+                    break;
+                case 5:
+                    cout<<" S ";
+                    break;
+                case 7:
+                    cout<<" R ";
+                    break;
+                }
+                //1cout<<escenario[i][j]<<" ";
+
+            }
+            cout<<endl;
+        }
+}
+
 //Mueve el robot a una posicion x , y
 void Escenario::moverRobot(int x, int y)
 {
@@ -140,6 +174,11 @@ bool Escenario::movimientoIsValid(int i, int j)
         }
     }
     return valido;
+}
+
+void Escenario::setItem(int x, int y, int valor)
+{
+    this->escenario[x][y]=valor;
 }
 
 

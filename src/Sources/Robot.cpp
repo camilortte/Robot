@@ -12,8 +12,9 @@ using namespace std;
 
 
 int main(){
-    Escenario *mapa=new Escenario(10,10,10);
-    mapa->imprimirEscenario();
+    Escenario *mapa=new Escenario(20,20,100);
+    //mapa->debug();
+    mapa->imprimirEscenarioGragico();
     AEstrella todo(mapa);
     todo.calcularCamino();
 

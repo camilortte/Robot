@@ -20,22 +20,22 @@ bool AEstrella::calcularCamino()
     int robotX=mapa->getRobotX();
     int robotY=mapa->getRobotY();
     //El estado inicial lo almacenamos en la lista abierta
-    robot=new Estado(robotX,robotY,-1,-1);
+    robot=new Estado(robotX,robotY,NULL);
     robot->setH(heuristica(robotX,robotY));
     robot->setG(10);
-    listaAbierta.push_back(robot);
-    listaAbierta2.insert(robot);
+    //listaAbierta.push_back(robot);
+    //listaAbierta2.insert(robot);
 
     //almacenamos todos los suceros de A en la lista abierta
     agregarSucesores(robot);
 
     //Quitamos A de la lista abierta y la agregamos  a la lista cerrada
-    listaCerrada.push_back(listaAbierta[0]);
-    listaAbierta.erase(listaAbierta.begin());
+    /*listaCerrada.push_back(listaAbierta[0]);
+    listaAbierta.erase(listaAbierta.begin());*/
 
 
     listaCerrada2.insert(*listaAbierta2.begin());
-    listaAbierta2.erase(listaAbierta2.begin());
+   // listaAbierta2.erase(listaAbierta2.begin());
 
     set<Estado*>::iterator it;
 
@@ -60,7 +60,7 @@ bool AEstrella::calcularCamino()
     int sy=-1;
     int a;
 
-    while((sx!=mapa->getSalidaX()|| sy!=mapa->getSalidaY()) && listaAbierta2.empty()!=true ){
+    while((sx!=mapa->getSalidaX()|| sy!=mapa->getSalidaY()) ){//&& listaAbierta2.empty()!=true ){
         Estado *auxiliar=*listaAbierta2.begin();
         listaCerrada2.insert(auxiliar);
         listaAbierta2.erase(listaAbierta2.begin());
@@ -69,10 +69,10 @@ bool AEstrella::calcularCamino()
         sx=auxiliar->getX();
         sy=auxiliar->getY();
 
-/*
-        cout<<"Se va a imprimir ListaCerrada: "<<endl;
+
+        /*cout<<"Se va a imprimir ListaCerrada: "<<endl;
         for (it=listaCerrada2.begin(); it!=listaCerrada2.end(); ++it){
-            cout<<(*it)->getX()<<" "<<(*it)->getY()<<" heuristica:"<<(*it)->getH()<<endl;
+            cout<<(*it)->getX()<<" "<<(*it)->getY()<<" heuristica:"<<(*it)->getH()<<" Tiene pap&aacute; "<<(*it)->getPadre()<<endl;
             //cout<<(*it)->getX();
         }
         cout<<"Se imprimio"<<endl;
@@ -84,13 +84,23 @@ bool AEstrella::calcularCamino()
             cout<<(*it)->getX()<<" "<<(*it)->getY()<<" heuristica:"<<(*it)->getH()<<endl;
             //cout<<(*it)->getX();
         }
-        cout<<"Se imprimio"<<endl;
+        cout<<"Se imprimio"<<endl;*/
 
-      */
-      //cin>>a;
 
-      cout<<endl;
+
+
+      salida=auxiliar;
+
     }
+
+
+
+    imprimirCamino();
+    cout<<endl;
+    mapa->imprimirEscenarioGragico();
+    cout<<endl;
+    mapa->imprimirEscenario();
+
 
 
 
@@ -108,7 +118,7 @@ bool AEstrella::calcularCamino()
     for(int i=0;i<listaAbierta.size();i++){
         cout<<listaAbierta[i]->getX()<<" "<<listaAbierta[i]->getY()<<" heuristica:"<<listaAbierta[i]->getH()<<endl;
     }
-    cout<<"Se imprimio: "<<endl;*/
+    cout<<"Se imprimio: "<<endl;
 
     cout<<"Se va a imprimir ListaCerrada: "<<endl;
     for (it=listaCerrada2.begin(); it!=listaCerrada2.end(); ++it){
@@ -117,7 +127,7 @@ bool AEstrella::calcularCamino()
     }
     cout<<"Se imprimio"<<endl;
 
-    cout<<endl;
+    cout<<endl;*/
 
     //===========END_DEBUG=========================
 
@@ -132,7 +142,12 @@ int AEstrella::heuristica(int x, int y)
 
 void AEstrella::imprimirCamino()
 {
-
+    Estado *auxliar=salida;
+    while(auxliar!=NULL){
+        //cout<<auxliar->getX()<<" <-> "<<auxliar->getY()<<endl;
+        mapa->setItem(auxliar->getX(),auxliar->getY(),7);
+        auxliar=auxliar->getPadre();
+    }
 }
 
 
@@ -146,7 +161,7 @@ void AEstrella::agregarSucesores(Estado *estadoPadre){
         switch (i){
         case 0:
             if(mapa->getItem(estadoPadreX-1,estadoPadreY)!=-1){
-                estado=new Estado(estadoPadreX-1,estadoPadreY,estadoPadreX,estadoPadreY);
+                estado=new Estado(estadoPadreX-1,estadoPadreY,estadoPadre);
                 estado->setG(10);
                 estado->setH(heuristica(estadoPadreX-1,estadoPadreY));
                 listaAbierta.push_back(estado);
@@ -157,7 +172,7 @@ void AEstrella::agregarSucesores(Estado *estadoPadre){
             break;
         case 1:
             if(mapa->getItem(estadoPadreX,estadoPadreY+1)!=-1){
-                estado=new Estado(estadoPadreX,estadoPadreY+1,estadoPadreX,estadoPadreY);
+                estado=new Estado(estadoPadreX,estadoPadreY+1,estadoPadre);
                 estado->setG(10);
                 estado->setH(heuristica(estadoPadreX,estadoPadreY+1));
                 listaAbierta.push_back(estado);
@@ -167,7 +182,7 @@ void AEstrella::agregarSucesores(Estado *estadoPadre){
             break;
         case 2:
             if(mapa->getItem(estadoPadreX+1,estadoPadreY)!=-1){
-                estado=new Estado(estadoPadreX+1,estadoPadreY,estadoPadreX,estadoPadreY);
+                estado=new Estado(estadoPadreX+1,estadoPadreY,estadoPadre);
                 estado->setG(10);
                 estado->setH(heuristica(estadoPadreX+1,estadoPadreY));
                 listaAbierta.push_back(estado);
@@ -177,7 +192,7 @@ void AEstrella::agregarSucesores(Estado *estadoPadre){
             break;
         case 3:
             if(mapa->getItem(estadoPadreX,estadoPadreY-1)!=-1){
-                estado=new Estado(estadoPadreX,estadoPadreY-1,estadoPadreX,estadoPadreY);
+                estado=new Estado(estadoPadreX,estadoPadreY-1,estadoPadre);
                 estado->setG(10);
                 estado->setH(heuristica(estadoPadreX,estadoPadreY-1));
                 listaAbierta.push_back(estado);
