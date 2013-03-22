@@ -1,3 +1,9 @@
+/*
+    Author: Camilo Antonio Ramirez Morales.
+    Email: camilortte@hotmail.com
+    Twitter: @camilortte
+*/
+
 #ifndef ESTADO_H
 #define ESTADO_H
 

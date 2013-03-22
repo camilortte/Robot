@@ -1,3 +1,9 @@
+/*
+    Author: Camilo Antonio Ramirez Morales.
+    Email: camilortte@hotmail.com
+    Twitter: @camilortte
+*/
+
 #ifndef AESTRELLA_H
 #define AESTRELLA_H
 #include "src/Headers/estado.h"
@@ -45,7 +51,7 @@ public:
     AEstrella();
     bool calcularCamino();
     int heuristica(int x, int y);
-    void imprimirCamino();
+    void segmentarCamino();
 
 
 };

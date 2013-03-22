@@ -1,3 +1,9 @@
+/*
+    Author: Camilo Antonio Ramirez Morales.
+    Email: camilortte@hotmail.com
+    Twitter: @camilortte
+*/
+
 #include "src/Headers/aestrella.h"
 
 using namespace std;
@@ -23,8 +29,6 @@ bool AEstrella::calcularCamino()
     robot=new Estado(robotX,robotY,NULL);
     robot->setH(heuristica(robotX,robotY));
     robot->setG(10);
-    //listaAbierta.push_back(robot);
-    //listaAbierta2.insert(robot);
 
     //almacenamos todos los suceros de A en la lista abierta
     agregarSucesores(robot);
@@ -37,30 +41,10 @@ bool AEstrella::calcularCamino()
     listaCerrada2.insert(*listaAbierta2.begin());
    // listaAbierta2.erase(listaAbierta2.begin());
 
-    set<Estado*>::iterator it;
-
-    /*cout<<"Se va a imprimir ListaCerrada: "<<endl;
-    for (it=listaCerrada2.begin(); it!=listaCerrada2.end(); ++it){
-        cout<<(*it)->getX()<<" "<<(*it)->getY()<<" heuristica:"<<(*it)->getH()<<endl;
-        //cout<<(*it)->getX();
-    }
-    cout<<"Se imprimio"<<endl;
-
-    cout<<endl;
-
-    cout<<"Se va a imprimir Abierta: "<<endl;
-    for (it=listaAbierta2.begin(); it!=listaAbierta2.end(); ++it){
-        cout<<(*it)->getX()<<" "<<(*it)->getY()<<" heuristica:"<<(*it)->getH()<<endl;
-        //cout<<(*it)->getX();
-    }
-    cout<<"Se imprimio"<<endl;*/
-
-
     int sx=-1;
     int sy=-1;
-    int a;
 
-    while((sx!=mapa->getSalidaX()|| sy!=mapa->getSalidaY()) ){//&& listaAbierta2.empty()!=true ){
+    while((sx!=mapa->getSalidaX()|| sy!=mapa->getSalidaY()) && listaAbierta2.empty()!=true ){
         Estado *auxiliar=*listaAbierta2.begin();
         listaCerrada2.insert(auxiliar);
         listaAbierta2.erase(listaAbierta2.begin());
@@ -68,34 +52,11 @@ bool AEstrella::calcularCamino()
 
         sx=auxiliar->getX();
         sy=auxiliar->getY();
-
-
-        /*cout<<"Se va a imprimir ListaCerrada: "<<endl;
-        for (it=listaCerrada2.begin(); it!=listaCerrada2.end(); ++it){
-            cout<<(*it)->getX()<<" "<<(*it)->getY()<<" heuristica:"<<(*it)->getH()<<" Tiene pap&aacute; "<<(*it)->getPadre()<<endl;
-            //cout<<(*it)->getX();
-        }
-        cout<<"Se imprimio"<<endl;
-
-        cout<<endl;
-
-        cout<<"Se va a imprimir Abierta: "<<endl;
-        for (it=listaAbierta2.begin(); it!=listaAbierta2.end(); ++it){
-            cout<<(*it)->getX()<<" "<<(*it)->getY()<<" heuristica:"<<(*it)->getH()<<endl;
-            //cout<<(*it)->getX();
-        }
-        cout<<"Se imprimio"<<endl;*/
-
-
-
-
-      salida=auxiliar;
+        salida=auxiliar;
 
     }
 
-
-
-    imprimirCamino();
+    segmentarCamino();
     cout<<endl;
     mapa->imprimirEscenarioGragico();
     cout<<endl;
@@ -131,7 +92,10 @@ bool AEstrella::calcularCamino()
 
     //===========END_DEBUG=========================
 
-    return true;
+    if(listaAbierta2.empty() && (sx!=mapa->getSalidaX()|| sy!=mapa->getSalidaY()) )
+        return false;
+    else
+        return true;
 }
 
 //H = 10*(abs(Xactual-Xdestino) + abs(Yactual-Ydestino))  Metodo manhattan
@@ -140,7 +104,8 @@ int AEstrella::heuristica(int x, int y)
     return 10*(abs(x-mapa->getSalidaX()) + abs(y-mapa->getSalidaY()));
 }
 
-void AEstrella::imprimirCamino()
+//modifica el escenario para que se vea la solucion del camino
+void AEstrella::segmentarCamino()
 {
     Estado *auxliar=salida;
     while(auxliar!=NULL){
@@ -151,7 +116,8 @@ void AEstrella::imprimirCamino()
 }
 
 
-
+//AGrega los sucesores de un estado a la lista abierta , si no existe en la lista
+//abierta y en la cerrada
 void AEstrella::agregarSucesores(Estado *estadoPadre){
 
     int estadoPadreX=estadoPadre->getX();
@@ -206,7 +172,7 @@ void AEstrella::agregarSucesores(Estado *estadoPadre){
 }
 
 
-
+/*Ojo quedo muy gamin esa forma de buscar , hay que mejorar el algoritmo*/
 //Rertorna true si lo encontro , de lo contrario false
 bool AEstrella::comprobarListaCerrada(Estado *estado)
 {

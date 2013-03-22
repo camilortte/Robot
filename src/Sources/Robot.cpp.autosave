@@ -27,7 +27,6 @@ int main(){
         cout<<"¡¡¡No hay ningun CAMINO posible!!!"<<endl;
         cout<<"---------------------------------------"<<endl<<endl<<endl;
     }
-
     return 0;
 }
 

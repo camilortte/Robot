@@ -1,3 +1,9 @@
+/*
+    Author: Camilo Antonio Ramirez Morales.
+    Email: camilortte@hotmail.com
+    Twitter: @camilortte
+*/
+
 #include "src/Headers/escenario.h"
 #include <iostream>
 #include <cstdlib>

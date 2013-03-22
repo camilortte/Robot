@@ -1,3 +1,9 @@
+/*
+    Author: Camilo Antonio Ramirez Morales.
+    Email: camilortte@hotmail.com
+    Twitter: @camilortte
+*/
+
 #include "src/Headers/estado.h"
 
 Estado::Estado(int x, int y, Estado *padre)
