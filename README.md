@@ -4,6 +4,8 @@
 ##Pendiente:
 
 * Implementar GUI.
+*  Solucionar el problema mediante  gredy.
+*  En cada caso debera mostrar tiempo utilizado, ruta utilizada y costo espacial (numero de nodos generados y visitados).
 
 ##¿Como funciona?
 
