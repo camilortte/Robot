@@ -49,11 +49,9 @@ bool AEstrella::calcularCamino()
         listaCerrada2.insert(auxiliar);
         listaAbierta2.erase(listaAbierta2.begin());
         agregarSucesores(auxiliar);
-
         sx=auxiliar->getX();
         sy=auxiliar->getY();
-        salida=auxiliar;
-
+        salida=auxiliar;        
     }
 
     segmentarCamino();

@@ -38,6 +38,9 @@ public:
     int getSalidaX(){ return salidaX;}
     int getSalidaY(){ return salidaY;}
 
+    void setMatrizEscenario(int **escenario,int robotX,int robotY,int salidaX,int salidaY);
+    int ** getMatrizEscenario(){ return this->escenario;}
+
     void debug(){
         escenario=new int*[5];
         for(int i=0;i<n;i++){
@@ -79,9 +82,6 @@ public:
 
         salidaX=2;
         salidaY=4;
-
-
-
 
     }
 

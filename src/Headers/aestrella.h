@@ -50,7 +50,7 @@ public:
     AEstrella(Escenario *mapa);
     AEstrella();
     bool calcularCamino();
-    int heuristica(int x, int y);
+    virtual int heuristica(int x, int y);
     void segmentarCamino();
 
 

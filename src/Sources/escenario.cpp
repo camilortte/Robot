@@ -27,6 +27,8 @@ Escenario::Escenario(int n, int m,int numeroObstaculos)
     reGenerarEscenario();
 }
 
+
+
 //genera la aleatoriedad del escenario
 void Escenario::reGenerarEscenario()
 {
@@ -185,6 +187,16 @@ bool Escenario::movimientoIsValid(int i, int j)
 void Escenario::setItem(int x, int y, int valor)
 {
     this->escenario[x][y]=valor;
+}
+
+void Escenario::setMatrizEscenario(int **escenario,int robotX,int robotY,int salidaX,int salidaY)
+{
+    this->escenario=escenario;
+    this->robotX=robotX;
+    this->robotY=robotY;
+
+    this->salidaX=salidaX;
+    this->salidaY=salidaY;
 }
 
 
