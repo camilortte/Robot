@@ -23,23 +23,47 @@ int main(){
     //mapa->debug();
     mapa->imprimirEscenarioGragico();
     AEstrella todo(mapa);
+    cout<<endl;
     if(!todo.calcularCamino()){
+        mapa->imprimirEscenarioGragico();
+        cout<<endl<<endl;
+        mapa->imprimirEscenario();
         cout<<endl<<endl<<"---------------------------------------"<<endl;
         cout<<"¡¡¡No hay ningun CAMINO posible!!!"<<endl;
         cout<<"---------------------------------------"<<endl<<endl<<endl;
+    }else{
+        mapa->imprimirEscenarioGragico();
+        cout<<endl;
+        mapa->imprimirEscenario();
+        cout<<endl;
     }
+    cout<<"Numero de nodos generados: "<<todo.numeroDeNodosGenerados()<<endl<<"Numero de nodos visitiados: "<<
+          todo.numeroDeNodosVisitados()<<endl;
+    cout<<"Contador tiempo: "<<todo.contadorTiempo<<" Unidades "<<endl;
 
-    cout<<"-----------------------------------------------------asas---------sass----------"<<endl<<endl<<endl;
+
+    cout<<"------------------------------------------------------------------------"<<endl<<endl<<endl;
 
     mapa=new Escenario(10,10,20);
     mapa->imprimirEscenarioGragico();
     Grey *grey=new Grey(mapa);
     cout<<endl<<endl;
     if(!grey->calcularCamino()){
+        mapa->imprimirEscenarioGragico();
+        cout<<endl<<endl;
+        mapa->imprimirEscenario();
         cout<<endl<<endl<<"---------------------------------------"<<endl;
         cout<<"¡¡¡No hay ningun CAMINO posible!!!"<<endl;
         cout<<"---------------------------------------"<<endl<<endl<<endl;
+    }else{
+        mapa->imprimirEscenarioGragico();
+        cout<<endl;
+        mapa->imprimirEscenario();
+        cout<<endl;
     }
+    cout<<"Numero de nodos generados: "<<grey->numeroDeNodosGenerados()<<endl<<"Numero de nodos visitiados: "<<
+          grey->numeroDeNodosVisitados()<<endl;
+    cout<<"Contador tiempo: "<<grey->contadorTiempo<<" Unidades "<<endl<<endl;
 
 
 

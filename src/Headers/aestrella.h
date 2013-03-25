@@ -46,12 +46,16 @@ private:
     set <Estado*,Cmp> listaAbierta2;
     set <Estado*,Cmp> listaCerrada2;
 
+
 public:
     AEstrella(Escenario *mapa);
     AEstrella();
     bool calcularCamino();
     virtual int heuristica(int x, int y);
     void segmentarCamino();
+    int numeroDeNodosGenerados(){ return listaAbierta2.size()+listaCerrada2.size(); }
+    int numeroDeNodosVisitados(){ return listaCerrada2.size();}
+    int contadorTiempo;
 
 
 };

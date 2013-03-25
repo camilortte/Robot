@@ -12,6 +12,7 @@ AEstrella::AEstrella(Escenario *mapa)
 {
     robot=NULL;
     this->mapa=mapa;
+    contadorTiempo=0;
 }
 
 AEstrella::AEstrella()
@@ -43,8 +44,9 @@ bool AEstrella::calcularCamino()
 
     int sx=-1;
     int sy=-1;
-
+    contadorTiempo++;
     while((sx!=mapa->getSalidaX()|| sy!=mapa->getSalidaY()) && listaAbierta2.empty()!=true ){
+        contadorTiempo++;
         Estado *auxiliar=*listaAbierta2.begin();
         listaCerrada2.insert(auxiliar);
         listaAbierta2.erase(listaAbierta2.begin());
@@ -55,13 +57,6 @@ bool AEstrella::calcularCamino()
     }
 
     segmentarCamino();
-    cout<<endl;
-    mapa->imprimirEscenarioGragico();
-    cout<<endl;
-    mapa->imprimirEscenario();
-
-
-
 
     //===========ZONA_DEBUG========================
     /*set<Estado*>::iterator it;
@@ -122,6 +117,7 @@ void AEstrella::agregarSucesores(Estado *estadoPadre){
     int estadoPadreY=estadoPadre->getY();
     Estado *estado;
     for(int i=0;i<4;i++){
+        contadorTiempo++;
         switch (i){
         case 0:
             if(mapa->getItem(estadoPadreX-1,estadoPadreY)!=-1){
