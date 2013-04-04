@@ -1,3 +1,0 @@
-Falta:
-
-1- hacer que si la mejor posicion (menor distacia a la salida) esta ocupada se busque el siguiente mejor camino.
