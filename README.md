@@ -1,13 +1,7 @@
 #Robot de Búsqueda Heurística implementado en C/C++
 
 
-##Pendiente:
-
-* Implementar GUI.
-* ~~Solucionar el problema mediante  gredy.~~
-* En cada caso debera mostrar tiempo utilizado, ruta utilizada y costo espacial (numero de nodos generados y visitados).
-
-* ###  Solución temporal de los requerimientos:
+* ###  Solución  de los requerimientos:
   * El numero de nodos generados lo tome como la suma de lo que tiene la lista abierta y la lista cerrada.
   * El numero de nodos visitados sería solo el tamaño de la lista cerrada, es decir la suma de nodos desde el origen hasta el destino.
   * La ruta utilizada , pss es la ya calculada.
